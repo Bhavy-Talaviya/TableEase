@@ -5,6 +5,8 @@ import HowItWorks from './components/HowItWorks'
 import FeaturedDishes from './components/FeaturedDishes'
 import Stats from './components/Stats'
 import Testimonials from './components/Testimonials'
+import CTA from './components/CTA'
+import Footer from './components/Footer'
 import './index.css'
 
 function App() {
@@ -17,7 +19,9 @@ function App() {
         <FeaturedDishes />
         <Stats />
         <Testimonials />
+        <CTA />
       </main>
+      <Footer />
     </div>
   )
 }
