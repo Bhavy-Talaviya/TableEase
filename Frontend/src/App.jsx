@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import HowItWorks from './components/HowItWorks'
+import FeaturedDishes from './components/FeaturedDishes'
 import './index.css'
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <main>
         <Hero />
         <HowItWorks />
+        <FeaturedDishes />
       </main>
     </div>
   )
