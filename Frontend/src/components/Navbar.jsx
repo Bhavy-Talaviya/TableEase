@@ -20,7 +20,7 @@ const Navbar = () => {
       <div className="nav-links">
         <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>Home</Link>
         <Link to="/our-story" className={`nav-link ${location.pathname === '/our-story' ? 'active' : ''}`}>Our Story</Link>
-        <a href="#reviews" className="nav-link">Reviews</a>
+        <Link to="/reviews" className={`nav-link ${location.pathname === '/reviews' ? 'active' : ''}`}>Reviews</Link>
       </div>
       
       <div className="nav-actions">
@@ -48,7 +48,7 @@ const Navbar = () => {
       <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
         <Link to="/" className="mobile-link" onClick={() => setIsMenuOpen(false)}>Home</Link>
         <Link to="/our-story" className="mobile-link" onClick={() => setIsMenuOpen(false)}>Our Story</Link>
-        <a href="#reviews" className="mobile-link" onClick={() => setIsMenuOpen(false)}>Reviews</a>
+        <Link to="/reviews" className="mobile-link" onClick={() => setIsMenuOpen(false)}>Reviews</Link>
         <div className="mobile-actions">
           <button className="btn-login" onClick={() => setIsMenuOpen(false)}>Login</button>
           <button className="btn-book" onClick={() => setIsMenuOpen(false)}>Book a Table</button>
