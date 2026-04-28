@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   return (
     <nav className="navbar">
-      <div className="nav-logo">
+      <Link to="/" className="nav-logo">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
           <path d="M7 2v20" />
           <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" />
         </svg>
         TableEase
-      </div>
+      </Link>
       
       {/* Desktop Links */}
       <div className="nav-links">
-        <a href="#home" className="nav-link active">Home</a>
-        <a href="#story" className="nav-link">Our Story</a>
+        <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>Home</Link>
+        <Link to="/our-story" className={`nav-link ${location.pathname === '/our-story' ? 'active' : ''}`}>Our Story</Link>
         <a href="#reviews" className="nav-link">Reviews</a>
       </div>
       
@@ -44,8 +46,8 @@ const Navbar = () => {
 
       {/* Mobile Menu Overlay */}
       <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
-        <a href="#home" className="mobile-link" onClick={() => setIsMenuOpen(false)}>Home</a>
-        <a href="#story" className="mobile-link" onClick={() => setIsMenuOpen(false)}>Our Story</a>
+        <Link to="/" className="mobile-link" onClick={() => setIsMenuOpen(false)}>Home</Link>
+        <Link to="/our-story" className="mobile-link" onClick={() => setIsMenuOpen(false)}>Our Story</Link>
         <a href="#reviews" className="mobile-link" onClick={() => setIsMenuOpen(false)}>Reviews</a>
         <div className="mobile-actions">
           <button className="btn-login" onClick={() => setIsMenuOpen(false)}>Login</button>
