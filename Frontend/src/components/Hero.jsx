@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = localStorage.getItem('currentUser');
+    setIsLoggedIn(!!user);
+  }, []);
+
+  const handleSearchClick = () => {
+    alert('First login then Book Table');
+    navigate('/login');
+  };
+
   return (
     <section className="hero-section">
       <div className="hero-content">
         <h1>Experience the Art of Fine Dining</h1>
         <p>Discover handpicked culinary experiences and reserve your perfect table in seconds.</p>
-        
+
         <div className="booking-widget">
           <div className="input-group">
             <label>Date</label>
@@ -20,7 +34,7 @@ const Hero = () => {
               <input type="text" placeholder="Pick a date" onFocus={(e) => e.target.type = 'date'} />
             </div>
           </div>
-          
+
           <div className="input-group">
             <label>Guests</label>
             <div className="input-wrapper">
@@ -39,8 +53,8 @@ const Hero = () => {
               </select>
             </div>
           </div>
-          
-          <button className="btn-search">
+
+          <button className="btn-search" onClick={handleSearchClick}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
