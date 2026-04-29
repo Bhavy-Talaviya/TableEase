@@ -11,6 +11,7 @@ import CustomerDashboard from './pages/CustomerDashboard'
 import UserProfile from './pages/UserProfile'
 import Reservations from './pages/Reservations'
 import Notifications from './pages/Notifications'
+import ManagerDashboard from './pages/ManagerDashboard'
 import './index.css'
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<CustomerDashboard />} />
+            <Route path="manager" element={<ManagerDashboard />} />
             <Route path="profile" element={<UserProfile />} />
             <Route path="reservations" element={<Reservations />} />
             <Route path="notifications" element={<Notifications />} />
