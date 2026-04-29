@@ -34,7 +34,7 @@ const ManagerDashboard = () => {
   };
 
   const updateReservationStatus = (id, newStatus) => {
-    const updated = reservations.map(res => 
+    const updated = reservations.map(res =>
       res.id === id ? { ...res, status: newStatus } : res
     );
     setReservations(updated);
@@ -49,79 +49,78 @@ const ManagerDashboard = () => {
 
   return (
     <div className="dashboard-page manager-dashboard">
-      <div className="manager-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+      <div className="manager-header">
         <h1>Manager Control Center</h1>
-        <button 
-          className="btn-add-restaurant" 
+        <button
+          className="btn-add-restaurant"
           onClick={() => setShowAddForm(!showAddForm)}
-          style={{ background: 'var(--primary)', color: 'white', padding: '12px 24px', borderRadius: '12px', fontWeight: '700' }}
         >
-          {showAddForm ? 'Cancel' : '+ Add New Restaurant'}
+          {showAddForm ? '✕ Cancel' : '+ Add New Restaurant'}
         </button>
       </div>
 
       {showAddForm && (
-        <div className="add-restaurant-form bw-card" style={{ marginBottom: '40px', padding: '30px' }}>
+        <div className="add-restaurant-form bw-card">
           <h3 style={{ marginBottom: '20px' }}>Restaurant Details</h3>
-          <form onSubmit={handleAddRestaurant} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+          <form onSubmit={handleAddRestaurant} className="add-restaurant-form-grid">
             <div className="bw-input-group">
               <label>Restaurant Name</label>
-              <input 
-                type="text" 
-                required 
-                value={newRestaurant.name} 
-                onChange={(e) => setNewRestaurant({...newRestaurant, name: e.target.value})}
+              <input
+                type="text"
+                required
+                value={newRestaurant.name}
+                onChange={(e) => setNewRestaurant({ ...newRestaurant, name: e.target.value })}
                 placeholder="e.g. The Italian Garden"
               />
             </div>
             <div className="bw-input-group">
               <label>Cuisine Type</label>
-              <input 
-                type="text" 
-                required 
-                value={newRestaurant.cuisine} 
-                onChange={(e) => setNewRestaurant({...newRestaurant, cuisine: e.target.value})}
+              <input
+                type="text"
+                required
+                value={newRestaurant.cuisine}
+                onChange={(e) => setNewRestaurant({ ...newRestaurant, cuisine: e.target.value })}
                 placeholder="e.g. Italian, Sushi, BBQ"
               />
             </div>
             <div className="bw-input-group">
               <label>Initial Rating (1-5)</label>
-              <input 
-                type="number" 
-                step="0.1" 
-                min="1" 
+              <input
+                type="number"
+                step="0.1"
+                min="1"
                 max="5"
-                required 
-                value={newRestaurant.rating} 
-                onChange={(e) => setNewRestaurant({...newRestaurant, rating: e.target.value})}
+                required
+                value={newRestaurant.rating}
+                onChange={(e) => setNewRestaurant({ ...newRestaurant, rating: e.target.value })}
                 placeholder="4.5"
               />
             </div>
-            <div className="bw-input-group full" style={{ gridColumn: 'span 2' }}>
+            <div className="bw-input-group form-full-span">
               <label>Description</label>
-              <textarea 
-                required 
-                value={newRestaurant.description} 
-                onChange={(e) => setNewRestaurant({...newRestaurant, description: e.target.value})}
+              <textarea
+                required
+                value={newRestaurant.description}
+                onChange={(e) => setNewRestaurant({ ...newRestaurant, description: e.target.value })}
                 placeholder="Tell customers about your place..."
               ></textarea>
             </div>
-            <div className="bw-input-group full" style={{ gridColumn: 'span 2' }}>
+            <div className="bw-input-group form-full-span">
               <label>Image URL</label>
-              <input 
-                type="url" 
-                required 
-                value={newRestaurant.image} 
-                onChange={(e) => setNewRestaurant({...newRestaurant, image: e.target.value})}
+              <input
+                type="url"
+                required
+                value={newRestaurant.image}
+                onChange={(e) => setNewRestaurant({ ...newRestaurant, image: e.target.value })}
                 placeholder="https://images.unsplash.com/..."
               />
             </div>
-            <button type="submit" className="bw-btn next" style={{ gridColumn: 'span 2' }}>Publish Restaurant</button>
+            <button type="submit" className="bw-btn next form-full-span">Publish Restaurant</button>
           </form>
         </div>
       )}
 
-      <div className="manager-grid" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '30px' }}>
+      <div className="manager-grid">
         <div className="manager-section">
           <h3 style={{ marginBottom: '20px' }}>Live Reservations & Queue</h3>
           <div className="reservations-list" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
@@ -132,8 +131,8 @@ const ManagerDashboard = () => {
                 <div key={res.id} className="notification-card" style={{ padding: '20px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
                     <strong>{res.details.name}</strong>
-                    <span className={`status-badge ${res.status === 'Table Ready' ? 'ready' : res.status === 'Dinner Complete' ? 'seated' : ''}`} 
-                      style={{ 
+                    <span className={`status-badge ${res.status === 'Table Ready' ? 'ready' : res.status === 'Dinner Complete' ? 'seated' : ''}`}
+                      style={{
                         background: res.status === 'Table Ready' ? '#E6FFFA' : res.status === 'Dinner Complete' ? '#FEF2F2' : '#FFFBEB',
                         color: res.status === 'Table Ready' ? '#047481' : res.status === 'Dinner Complete' ? '#991B1B' : '#B45309'
                       }}>
@@ -143,19 +142,19 @@ const ManagerDashboard = () => {
                   <p style={{ fontSize: '14px', color: '#666' }}>{res.restaurantName} | {res.bookingDate} at {res.time}</p>
                   <p style={{ fontSize: '14px', color: '#666' }}>{res.details.guests} Guests | {res.details.table}</p>
                   <div style={{ marginTop: '15px', display: 'flex', gap: '10px' }}>
-                    <button 
+                    <button
                       onClick={() => updateReservationStatus(res.id, 'Table Ready')}
                       style={{ fontSize: '12px', padding: '6px 12px', background: '#E6FFFA', color: '#047481', borderRadius: '6px' }}
                     >
                       Mark as Ready
                     </button>
-                    <button 
+                    <button
                       onClick={() => updateReservationStatus(res.id, 'Seated')}
                       style={{ fontSize: '12px', padding: '6px 12px', background: '#F0F9FF', color: '#0369A1', borderRadius: '6px' }}
                     >
                       Seated
                     </button>
-                    <button 
+                    <button
                       onClick={() => updateReservationStatus(res.id, 'Dinner Complete')}
                       style={{ fontSize: '12px', padding: '6px 12px', background: '#FEF2F2', color: '#991B1B', borderRadius: '6px' }}
                     >

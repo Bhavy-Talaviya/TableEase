@@ -60,18 +60,35 @@ const Notifications = () => {
         ) : (
           notifications.map(notif => (
             <div key={notif.id} className="notification-card">
-              <div className="notification-header">
-                <div className="notification-title-group">
-                  <h3 style={{ color: 'var(--primary)', marginBottom: '8px' }}>{notif.restaurantName}</h3>
-                  <h3>{notif.title}</h3>
-                  <span className="notification-time">Received on {notif.date}</span>
-                </div>
-                <span className={`status-badge ${notif.status === 'Ready soon' ? 'ready' : notif.status === 'Table Ready' ? 'ready' : 'seated'}`} style={{ 
+              {/* Row 1: Restaurant name + Badge on same line */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px' }}>
+                <h3 style={{
+                  color: 'var(--primary)',
+                  margin: 0,
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  flex: 1,
+                  minWidth: 0,
+                }}>
+                  {notif.restaurantName}
+                </h3>
+                <span className={`status-badge ${notif.status === 'Ready soon' ? 'ready' : notif.status === 'Table Ready' ? 'ready' : 'seated'}`} style={{
                   background: notif.status === 'Table Ready' ? '#E6FFFA' : notif.status === 'Dinner Complete' ? '#FEF2F2' : '#FFFBEB',
-                  color: notif.status === 'Table Ready' ? '#047481' : notif.status === 'Dinner Complete' ? '#991B1B' : '#B45309'
+                  color: notif.status === 'Table Ready' ? '#047481' : notif.status === 'Dinner Complete' ? '#991B1B' : '#B45309',
+                  flexShrink: 0,
+                  whiteSpace: 'nowrap',
                 }}>
                   {notif.status}
                 </span>
+              </div>
+
+              {/* Row 2: Title + Date */}
+              <div>
+                <h3 style={{ fontSize: '17px', fontWeight: '700', color: '#1A1A1A', margin: '0 0 4px' }}>{notif.title}</h3>
+                <span className="notification-time">Received on {notif.date}</span>
               </div>
 
               <div className="notification-body">
