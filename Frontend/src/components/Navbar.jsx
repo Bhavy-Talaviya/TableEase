@@ -3,25 +3,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const user = localStorage.getItem('currentUser');
-    setIsLoggedIn(!!user);
-  }, [location]);
 
   const handleBookClick = () => {
     alert('First login then Book Table');
     navigate('/login');
-    setIsMenuOpen(false);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('currentUser');
-    setIsLoggedIn(false);
-    navigate('/');
     setIsMenuOpen(false);
   };
 
@@ -44,11 +31,7 @@ const Navbar = () => {
       </div>
 
       <div className="nav-actions">
-        {isLoggedIn ? (
-          <button onClick={handleLogout} className="btn-login">Logout</button>
-        ) : (
-          <Link to="/login" className="btn-login">Login</Link>
-        )}
+        <Link to="/login" className="btn-login">Login</Link>
         <button className="btn-book" onClick={handleBookClick}>Book a Table</button>
       </div>
 
@@ -74,11 +57,7 @@ const Navbar = () => {
         <Link to="/our-story" className="mobile-link" onClick={() => setIsMenuOpen(false)}>Our Story</Link>
         <Link to="/reviews" className="mobile-link" onClick={() => setIsMenuOpen(false)}>Reviews</Link>
         <div className="mobile-actions">
-          {isLoggedIn ? (
-            <button onClick={handleLogout} className="btn-login">Logout</button>
-          ) : (
-            <Link to="/login" className="btn-login" onClick={() => setIsMenuOpen(false)}>Login</Link>
-          )}
+          <Link to="/login" className="btn-login" onClick={() => setIsMenuOpen(false)}>Login</Link>
           <button className="btn-book" onClick={handleBookClick}>Book a Table</button>
         </div>
       </div>
