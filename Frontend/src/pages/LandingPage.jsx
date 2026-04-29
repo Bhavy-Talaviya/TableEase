@@ -8,9 +8,15 @@ import Testimonials from '../components/Testimonials';
 import CTA from '../components/CTA';
 import Footer from '../components/Footer';
 
+import SEO from '../components/SEO';
+
 const LandingPage = () => {
   return (
     <div className="landing-page">
+      <SEO 
+        title="Seamless Restaurant Reservations" 
+        description="Discover and book the best restaurants in your city with TableEase. Real-time availability and premium dining experiences."
+      />
       <Navbar />
       <main>
         <Hero />
