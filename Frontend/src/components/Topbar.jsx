@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const Topbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [notifCount, setNotifCount] = useState(0);
+  
   const pathnames = location.pathname.split('/').filter(x => x);
   let currentPage = 'Dashboard';
   if (pathnames.length > 1) {
@@ -12,6 +14,24 @@ const Topbar = () => {
   }
 
   const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+  useEffect(() => {
+    const updateCount = () => {
+      const notifications = JSON.parse(localStorage.getItem('notifications') || '[]');
+      setNotifCount(notifications.length);
+    };
+
+    updateCount();
+    window.addEventListener('storage', updateCount);
+    
+    // Also poll every 2 seconds for same-tab updates
+    const interval = setInterval(updateCount, 2000);
+    
+    return () => {
+      window.removeEventListener('storage', updateCount);
+      clearInterval(interval);
+    };
+  }, []);
 
   const goToProfile = () => {
     navigate('/dashboard/profile');
@@ -41,7 +61,7 @@ const Topbar = () => {
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
               <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
             </svg>
-            <span className="badge">3</span>
+            {notifCount > 0 && <span className="badge">{notifCount}</span>}
           </button>
           <button className="icon-btn" onClick={goToProfile} title="Profile Settings">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -54,7 +74,7 @@ const Topbar = () => {
         <div className="user-profile-dropdown" onClick={goToProfile} style={{ cursor: 'pointer' }}>
           <div className="user-info-text">
             <span className="user-name">{currentUser.name || 'User'}</span>
-            <span className="user-role">Customer</span>
+            <span className="user-role">{currentUser.role || 'User'}</span>
           </div>
           <div className="user-avatar-container">
             <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${currentUser.name || 'User'}&backgroundColor=e65c00`} alt="User Profile" className="user-avatar" />
