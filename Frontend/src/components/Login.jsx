@@ -12,165 +12,261 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     setError('');
-
-    if (!email || !password) {
-      setError('Please enter both email and password.');
-      return;
-    }
-
+    if (!email || !password) { setError('Please enter both email and password.'); return; }
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const user = users.find(u => u.email === email && u.password === password && u.role === role);
-
     if (user) {
       localStorage.setItem('currentUser', JSON.stringify(user));
       navigate('/dashboard');
     } else {
-      setError('Invalid email, password, or role.');
+      setError('Invalid email, password, or role. Please try again.');
     }
   };
 
   return (
-    <div className="login-container">
-      {/* Left side: Image and Branding */}
-      <div className="login-image-section">
-        <div className="login-image-overlay"></div>
-        <div className="login-brand">
-          <Link to="/">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="brand-icon">
-              <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
-              <path d="M7 2v20" />
-              <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" />
-            </svg>
-            TableEase
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #fff5f0 0%, #fff 100%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '20px',
+      fontFamily: 'var(--font-main)',
+    }}>
+      <div style={{
+        width: '100%',
+        maxWidth: '480px',
+        background: 'white',
+        borderRadius: '28px',
+        boxShadow: '0 20px 60px rgba(0,0,0,0.08)',
+        overflow: 'hidden',
+      }}>
+        {/* Header Banner */}
+        <div style={{
+          background: 'linear-gradient(135deg, #FF6B35 0%, #FF8C61 100%)',
+          padding: '32px 28px 28px',
+          color: 'white',
+        }}>
+          <Link to="/" style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            color: 'rgba(255,255,255,0.85)',
+            textDecoration: 'none',
+            fontSize: '13px',
+            fontWeight: '600',
+            marginBottom: '20px',
+          }}>
+            ← Back to Home
           </Link>
+          <h1 style={{ fontSize: '26px', fontWeight: '800', margin: '0 0 4px' }}>Welcome Back 👋</h1>
+          <p style={{ fontSize: '14px', opacity: 0.85, margin: 0 }}>Sign in to continue to TableEase</p>
         </div>
-        <div className="login-image-content">
-          <h2>Elevating every meal into an unforgettable memory.</h2>
-          <div className="divider"></div>
-        </div>
-        <div className="login-copyright">
-          &copy; {new Date().getFullYear()} TableEase. All rights reserved.
-        </div>
-      </div>
 
-      {/* Right side: Login Form */}
-      <div className="login-form-section">
-        <div className="form-wrapper">
-          <div className="form-header">
-            <h1>Welcome Back</h1>
-            <p>Please enter your details to sign in.</p>
+        {/* Form Body */}
+        <div style={{ padding: '28px' }}>
+          {/* Role Toggle */}
+          <div style={{
+            display: 'flex',
+            background: '#f5f5f5',
+            borderRadius: '14px',
+            padding: '4px',
+            marginBottom: '24px',
+          }}>
+            {['customer', 'manager'].map(r => (
+              <button
+                key={r}
+                onClick={() => setRole(r)}
+                style={{
+                  flex: 1,
+                  padding: '11px',
+                  borderRadius: '11px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontWeight: '700',
+                  fontSize: '14px',
+                  transition: 'all 0.25s',
+                  background: role === r ? 'white' : 'transparent',
+                  color: role === r ? 'var(--primary)' : '#999',
+                  boxShadow: role === r ? '0 2px 10px rgba(0,0,0,0.08)' : 'none',
+                }}
+              >
+                {r.charAt(0).toUpperCase() + r.slice(1)}
+              </button>
+            ))}
           </div>
 
-          <div className="role-toggle">
-            <button
-              className={`role-btn ${role === 'customer' ? 'active' : ''}`}
-              onClick={() => setRole('customer')}
-            >
-              Customer
-            </button>
-            <button
-              className={`role-btn ${role === 'manager' ? 'active' : ''}`}
-              onClick={() => setRole('manager')}
-            >
-              Manager
-            </button>
-          </div>
+          {/* Error */}
+          {error && (
+            <div style={{
+              background: '#FFF0F0', color: '#D32F2F', padding: '12px 16px',
+              borderRadius: '12px', fontSize: '13px', marginBottom: '16px',
+              border: '1px solid #FFCDD2',
+            }}>
+              ⚠️ {error}
+            </div>
+          )}
 
-          <form className="login-form" onSubmit={handleLogin}>
-            {error && <div className="error-message" style={{ color: '#FF4D4D', marginBottom: '1rem', fontSize: '0.875rem' }}>{error}</div>}
-            <div className="input-group">
-              <label htmlFor="email">Email Address</label>
-              <div className="input-icon-wrapper">
-                <svg className="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-                <input 
-                  type="email" 
-                  id="email" 
-                  placeholder="name@example.com" 
+          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {/* Email */}
+            <div>
+              <label style={labelStyle}>Email Address</label>
+              <div style={{ position: 'relative' }}>
+                <span style={iconStyle}>✉️</span>
+                <input
+                  type="email"
+                  placeholder="name@example.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
+                  style={inputStyle}
                 />
               </div>
             </div>
 
-            <div className="input-group">
-              <label htmlFor="password">Password</label>
-              <div className="input-icon-wrapper">
-                <svg className="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                </svg>
+            {/* Password */}
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <label style={{ ...labelStyle, marginBottom: 0 }}>Password</label>
+                <Link to="/forgot-password" style={{ fontSize: '13px', color: 'var(--primary)', fontWeight: '600', textDecoration: 'none' }}>
+                  Forgot Password?
+                </Link>
+              </div>
+              <div style={{ position: 'relative' }}>
+                <span style={iconStyle}>🔒</span>
                 <input
-                  type={showPassword ? "text" : "password"}
-                  id="password"
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="••••••••"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={e => setPassword(e.target.value)}
+                  style={inputStyle}
                 />
                 <button
                   type="button"
-                  className="password-toggle"
                   onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)',
+                    background: 'none', border: 'none', cursor: 'pointer', color: '#999',
+                    fontSize: '16px', padding: '4px', minHeight: 'unset',
+                  }}
                 >
-                  {showPassword ? (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                      <line x1="1" y1="1" x2="23" y2="23"></line>
-                    </svg>
-                  ) : (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                      <circle cx="12" cy="12" r="3"></circle>
-                    </svg>
-                  )}
+                  {showPassword ? '🙈' : '👁️'}
                 </button>
               </div>
             </div>
 
-            <div className="form-actions">
-              <label className="remember-me">
-                <input type="checkbox" />
-                <span className="checkmark"></span>
-                Remember me
-              </label>
-              <Link to="/forgot-password" className="forgot-password">Forgot Password?</Link>
-            </div>
+            {/* Remember Me */}
+            <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                style={{ accentColor: 'var(--primary)', width: '16px', height: '16px', flexShrink: 0 }}
+              />
+              <span style={{ fontSize: '13px', color: '#555' }}>Remember me for 30 days</span>
+            </label>
 
-            <button type="submit" className="btn-signin">Sign In</button>
+            {/* Submit */}
+            <button type="submit" style={{
+              width: '100%',
+              height: '54px',
+              background: 'linear-gradient(135deg, #FF6B35, #FF8C61)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '16px',
+              fontSize: '16px',
+              fontWeight: '700',
+              cursor: 'pointer',
+              boxShadow: '0 6px 20px rgba(255,107,53,0.35)',
+              transition: 'all 0.2s',
+              marginTop: '4px',
+              letterSpacing: '0.3px',
+            }}>
+              Sign In
+            </button>
           </form>
 
-          <div className="social-login-container">
-            <div className="social-divider">
-              <span>or sign in with</span>
-            </div>
-            <div className="social-buttons">
-              <button className="btn-social">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                </svg>
-                Google
-              </button>
-              <button className="btn-social">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M16.6 8.9c-.1-.1-1.3-.8-1.3-2.4 0-1.9 1.6-2.8 1.7-2.9-1-1.5-2.6-1.7-3.2-1.7-1.4-.1-2.7.9-3.4.9-.7 0-1.8-.8-2.9-.8-1.5 0-2.9.9-3.7 2.2-1.6 2.8-.4 6.9 1.2 9.2.8 1.1 1.7 2.3 2.9 2.3 1.1 0 1.6-.7 2.9-.7 1.3 0 1.8.7 3 .7 1.2 0 2-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.5-1-2.5-3.9 0-2 .1-3.4 1.2-4l-.1.1zM11.9 5.8c.6-.7 1-1.6 1-2.6 0-.1 0-.2 0-.3-.9.1-1.9.6-2.6 1.3-.5.6-1 1.6-1 2.5 0 .1 0 .2 0 .3 1-.1 1.9-.5 2.6-1.2z" />
-                </svg>
-                Apple
-              </button>
-            </div>
+          {/* Register Link */}
+          <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '14px', color: '#666' }}>
+            Don't have an account?{' '}
+            <Link to="/register" style={{ color: 'var(--primary)', fontWeight: '700', textDecoration: 'none' }}>Register now</Link>
+          </p>
+
+          {/* Social Divider */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '20px 0 16px' }}>
+            <div style={{ flex: 1, height: '1px', background: '#E5E5E5' }} />
+            <span style={{ fontSize: '12px', color: '#999', fontWeight: '700', letterSpacing: '0.5px' }}>OR CONTINUE WITH</span>
+            <div style={{ flex: 1, height: '1px', background: '#E5E5E5' }} />
           </div>
 
-          <div className="register-link">
-            Don't have an account? <Link to="/register">Register now</Link>
+          {/* Social Buttons */}
+          <div style={{ display: 'flex', gap: '12px' }}>
+            {['Google', 'Apple'].map(label => (
+              <button key={label} style={{
+                flex: 1,
+                height: '48px',
+                background: 'white',
+                border: '1.5px solid #E5E5E5',
+                borderRadius: '14px',
+                fontSize: '14px',
+                fontWeight: '600',
+                color: '#1A1A1A',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                transition: 'all 0.2s',
+              }}>
+                {label === 'Google' ? (
+                  <svg width="18" height="18" viewBox="0 0 24 24">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+                  </svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16.6 8.9c-.1-.1-1.3-.8-1.3-2.4 0-1.9 1.6-2.8 1.7-2.9-1-1.5-2.6-1.7-3.2-1.7-1.4-.1-2.7.9-3.4.9-.7 0-1.8-.8-2.9-.8-1.5 0-2.9.9-3.7 2.2-1.6 2.8-.4 6.9 1.2 9.2.8 1.1 1.7 2.3 2.9 2.3 1.1 0 1.6-.7 2.9-.7 1.3 0 1.8.7 3 .7 1.2 0 2-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.5-1-2.5-3.9 0-2 .1-3.4 1.2-4l-.1.1zM11.9 5.8c.6-.7 1-1.6 1-2.6 0-.1 0-.2 0-.3-.9.1-1.9.6-2.6 1.3-.5.6-1 1.6-1 2.5 0 .1 0 .2 0 .3 1-.1 1.9-.5 2.6-1.2z" />
+                  </svg>
+                )}
+                {label}
+              </button>
+            ))}
           </div>
         </div>
       </div>
     </div>
   );
+};
+
+const labelStyle = {
+  display: 'block',
+  fontSize: '13px',
+  fontWeight: '700',
+  color: '#1A1A1A',
+  marginBottom: '8px',
+};
+
+const inputStyle = {
+  width: '100%',
+  height: '52px',
+  paddingLeft: '44px',
+  paddingRight: '44px',
+  border: '1.5px solid #E5E5E5',
+  borderRadius: '14px',
+  fontSize: '15px',
+  fontFamily: 'var(--font-main)',
+  background: '#FAFAFA',
+  outline: 'none',
+  transition: 'border-color 0.2s',
+  boxSizing: 'border-box',
+};
+
+const iconStyle = {
+  position: 'absolute',
+  left: '14px',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  fontSize: '16px',
+  pointerEvents: 'none',
 };
 
 export default Login;
