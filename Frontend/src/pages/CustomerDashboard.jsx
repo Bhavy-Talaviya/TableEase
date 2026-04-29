@@ -1,136 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const CustomerDashboard = () => {
   const [visibleCount, setVisibleCount] = useState(9);
+  const [restaurants, setRestaurants] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Load restaurants from localStorage or use defaults
+    const saved = JSON.parse(localStorage.getItem('restaurants') || '[]');
+    if (saved.length === 0) {
+      const defaultRestaurants = [
+        { id: 1, name: 'The Rustic Spoons', cuisine: 'Italian', rating: 4.8, image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', description: 'Fine dining with rustic charm.', waitTime: '15 mins' },
+        { id: 2, name: 'Ocean Breeze Grill', cuisine: 'Seafood', rating: 4.6, image: 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', description: 'Fresh seafood with ocean views.', waitTime: '20 mins' },
+        { id: 3, name: 'Spice Route', cuisine: 'Asian Fusion', rating: 4.9, image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', description: 'Authentic Asian fusion dishes.', waitTime: '10 mins' }
+      ];
+      setRestaurants(defaultRestaurants);
+      localStorage.setItem('restaurants', JSON.stringify(defaultRestaurants));
+    } else {
+      setRestaurants(saved);
+    }
+  }, []);
 
   const handleBookClick = (restaurantName) => {
     navigate('/dashboard/reservations', { state: { restaurantName } });
   };
-
-  const restaurants = [
-    {
-      id: 1,
-      name: 'The Rustic Spoons',
-      image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Experience fine dining with a rustic charm. Farm-to-table ingredients prepared with passion.',
-      rating: 4.8,
-      cuisine: 'Italian'
-    },
-    {
-      id: 2,
-      name: 'Ocean Breeze Grill',
-      image: 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Fresh seafood caught daily, served with breathtaking ocean views and premium cocktails.',
-      rating: 4.6,
-      cuisine: 'Seafood'
-    },
-    {
-      id: 3,
-      name: 'Spice Route',
-      image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'A culinary journey through authentic Asian spices and modern fusion dishes.',
-      rating: 4.9,
-      cuisine: 'Asian Fusion'
-    },
-    {
-      id: 4,
-      name: 'La Petit Bistro',
-      image: 'https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Intimate French dining experience featuring classic recipes and a world-class wine list.',
-      rating: 4.7,
-      cuisine: 'French'
-    },
-    {
-      id: 5,
-      name: 'Tokyo Nights',
-      image: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Experience the finest sushi and modern Japanese delicacies in an immersive neon-lit atmosphere.',
-      rating: 4.8,
-      cuisine: 'Japanese'
-    },
-    {
-      id: 6,
-      name: 'El Camino Steakhouse',
-      image: 'https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Premium cuts of dry-aged beef paired with fine wines and artisanal sides in a classic setting.',
-      rating: 4.7,
-      cuisine: 'Steakhouse'
-    },
-    {
-      id: 7,
-      name: 'Vegan Delights',
-      image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Plant-based gastronomy redefining healthy eating without compromising on flavor or presentation.',
-      rating: 4.9,
-      cuisine: 'Vegan'
-    },
-    {
-      id: 8,
-      name: 'Tuscan Villa',
-      image: 'https://images.unsplash.com/photo-1537047902294-62a40c20a6ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Authentic wood-fired pizzas and handmade pastas crafted with love in a warm, family-friendly environment.',
-      rating: 4.5,
-      cuisine: 'Italian'
-    },
-    {
-      id: 9,
-      name: 'The Golden Wok',
-      image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Authentic Chinese cuisine featuring hand-pulled noodles and dim sum.',
-      rating: 4.6,
-      cuisine: 'Chinese'
-    },
-    {
-      id: 10,
-      name: 'Bavarian Brewhaus',
-      image: 'https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Traditional German sausages, pretzels, and an extensive selection of craft beers.',
-      rating: 4.5,
-      cuisine: 'German'
-    },
-    {
-      id: 11,
-      name: 'Mumbai Spices',
-      image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Rich curries, tandoori specialties, and fresh naan straight from the oven.',
-      rating: 4.7,
-      cuisine: 'Indian'
-    },
-    {
-      id: 12,
-      name: 'Taco Fiesta',
-      image: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Vibrant Mexican street food with zesty margaritas in a festive atmosphere.',
-      rating: 4.8,
-      cuisine: 'Mexican'
-    },
-    {
-      id: 13,
-      name: 'Athens Taverna',
-      image: 'https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Classic Greek Mediterranean dishes including moussaka and fresh souvlaki.',
-      rating: 4.6,
-      cuisine: 'Greek'
-    },
-    {
-      id: 14,
-      name: 'Seoul BBQ',
-      image: 'https://images.unsplash.com/photo-1580651315530-69c8e0026377?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Interactive Korean barbecue experience with premium marinated meats and banchan.',
-      rating: 4.9,
-      cuisine: 'Korean'
-    },
-    {
-      id: 15,
-      name: 'The French Quarter',
-      image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Creole and Cajun inspired dishes bringing the soul of New Orleans to your table.',
-      rating: 4.7,
-      cuisine: 'Cajun'
-    }
-  ];
 
   return (
     <div className="dashboard-page">
@@ -151,6 +45,9 @@ const CustomerDashboard = () => {
             <div className="restaurant-image">
               <img src={restaurant.image} alt={restaurant.name} />
               <div className="restaurant-badge">{restaurant.cuisine}</div>
+              <div className="wait-time-badge" style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(0,0,0,0.6)', color: 'white', padding: '4px 10px', borderRadius: '15px', fontSize: '11px', fontWeight: '700' }}>
+                ⏳ {restaurant.waitTime || '15 mins'} wait
+              </div>
             </div>
             <div className="restaurant-info">
               <div className="restaurant-title-row">

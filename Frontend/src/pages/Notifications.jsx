@@ -4,8 +4,21 @@ const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem('notifications') || '[]');
-    setNotifications(saved);
+    const fetchNotifications = () => {
+      const saved = JSON.parse(localStorage.getItem('notifications') || '[]');
+      setNotifications(saved);
+    };
+
+    fetchNotifications();
+    
+    // Poll for updates every 2 seconds to reflect manager changes
+    const interval = setInterval(fetchNotifications, 2000);
+    window.addEventListener('storage', fetchNotifications);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('storage', fetchNotifications);
+    };
   }, []);
 
   const handleClearAll = () => {
@@ -31,8 +44,6 @@ const Notifications = () => {
               cursor: 'pointer',
               transition: 'all 0.2s'
             }}
-            onMouseOver={(e) => e.target.style.background = '#FFE0E0'}
-            onMouseOut={(e) => e.target.style.background = '#FFF0F0'}
           >
             Clear All
           </button>
@@ -55,7 +66,12 @@ const Notifications = () => {
                   <h3>{notif.title}</h3>
                   <span className="notification-time">Received on {notif.date}</span>
                 </div>
-                <span className="status-badge ready">{notif.status}</span>
+                <span className={`status-badge ${notif.status === 'Ready soon' ? 'ready' : notif.status === 'Table Ready' ? 'ready' : 'seated'}`} style={{ 
+                  background: notif.status === 'Table Ready' ? '#E6FFFA' : notif.status === 'Dinner Complete' ? '#FEF2F2' : '#FFFBEB',
+                  color: notif.status === 'Table Ready' ? '#047481' : notif.status === 'Dinner Complete' ? '#991B1B' : '#B45309'
+                }}>
+                  {notif.status}
+                </span>
               </div>
 
               <div className="notification-body">
@@ -84,7 +100,11 @@ const Notifications = () => {
               <div className="notification-footer">
                 <div className="ready-timer">
                   <span className="timer-icon">🕒</span>
-                  <span>Table will be ready at {notif.time}</span>
+                  <span>
+                    {notif.status === 'Table Ready' ? 'Your table is ready!' : 
+                     notif.status === 'Dinner Complete' ? 'Dinner finished.' :
+                     `Table will be ready at ${notif.time}`}
+                  </span>
                 </div>
                 <button 
                   className="btn-view-details" 
