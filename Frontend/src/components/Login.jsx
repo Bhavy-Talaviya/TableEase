@@ -1,9 +1,33 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [role, setRole] = useState('customer');
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (!email || !password) {
+      setError('Please enter both email and password.');
+      return;
+    }
+
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const user = users.find(u => u.email === email && u.password === password && u.role === role);
+
+    if (user) {
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      navigate('/dashboard');
+    } else {
+      setError('Invalid email, password, or role.');
+    }
+  };
 
   return (
     <div className="login-container">
@@ -38,13 +62,13 @@ const Login = () => {
           </div>
 
           <div className="role-toggle">
-            <button 
+            <button
               className={`role-btn ${role === 'customer' ? 'active' : ''}`}
               onClick={() => setRole('customer')}
             >
               Customer
             </button>
-            <button 
+            <button
               className={`role-btn ${role === 'manager' ? 'active' : ''}`}
               onClick={() => setRole('manager')}
             >
@@ -52,7 +76,8 @@ const Login = () => {
             </button>
           </div>
 
-          <form className="login-form" onSubmit={(e) => e.preventDefault()}>
+          <form className="login-form" onSubmit={handleLogin}>
+            {error && <div className="error-message" style={{ color: '#FF4D4D', marginBottom: '1rem', fontSize: '0.875rem' }}>{error}</div>}
             <div className="input-group">
               <label htmlFor="email">Email Address</label>
               <div className="input-icon-wrapper">
@@ -60,7 +85,13 @@ const Login = () => {
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                   <polyline points="22,6 12,13 2,6"></polyline>
                 </svg>
-                <input type="email" id="email" placeholder="name@example.com" />
+                <input 
+                  type="email" 
+                  id="email" 
+                  placeholder="name@example.com" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
             </div>
 
@@ -71,13 +102,15 @@ const Login = () => {
                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                   <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                 </svg>
-                <input 
-                  type={showPassword ? "text" : "password"} 
-                  id="password" 
-                  placeholder="••••••••" 
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="password-toggle"
                   onClick={() => setShowPassword(!showPassword)}
                 >
@@ -124,7 +157,7 @@ const Login = () => {
               </button>
               <button className="btn-social">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M16.6 8.9c-.1-.1-1.3-.8-1.3-2.4 0-1.9 1.6-2.8 1.7-2.9-1-1.5-2.6-1.7-3.2-1.7-1.4-.1-2.7.9-3.4.9-.7 0-1.8-.8-2.9-.8-1.5 0-2.9.9-3.7 2.2-1.6 2.8-.4 6.9 1.2 9.2.8 1.1 1.7 2.3 2.9 2.3 1.1 0 1.6-.7 2.9-.7 1.3 0 1.8.7 3 .7 1.2 0 2-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.5-1-2.5-3.9 0-2 .1-3.4 1.2-4l-.1.1zM11.9 5.8c.6-.7 1-1.6 1-2.6 0-.1 0-.2 0-.3-.9.1-1.9.6-2.6 1.3-.5.6-1 1.6-1 2.5 0 .1 0 .2 0 .3 1-.1 1.9-.5 2.6-1.2z"/>
+                  <path d="M16.6 8.9c-.1-.1-1.3-.8-1.3-2.4 0-1.9 1.6-2.8 1.7-2.9-1-1.5-2.6-1.7-3.2-1.7-1.4-.1-2.7.9-3.4.9-.7 0-1.8-.8-2.9-.8-1.5 0-2.9.9-3.7 2.2-1.6 2.8-.4 6.9 1.2 9.2.8 1.1 1.7 2.3 2.9 2.3 1.1 0 1.6-.7 2.9-.7 1.3 0 1.8.7 3 .7 1.2 0 2-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.5-1-2.5-3.9 0-2 .1-3.4 1.2-4l-.1.1zM11.9 5.8c.6-.7 1-1.6 1-2.6 0-.1 0-.2 0-.3-.9.1-1.9.6-2.6 1.3-.5.6-1 1.6-1 2.5 0 .1 0 .2 0 .3 1-.1 1.9-.5 2.6-1.2z" />
                 </svg>
                 Apple
               </button>

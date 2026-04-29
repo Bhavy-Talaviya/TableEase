@@ -1,12 +1,49 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const navigate = useNavigate();
   const [role, setRole] = useState('customer');
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState('');
   const [agreed, setAgreed] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    setError('');
+    
+    if (!fullName || !email || !password) {
+      setError('Please fill in all fields.');
+      return;
+    }
+    if (!agreed) {
+      setError('You must agree to the Terms of Service.');
+      return;
+    }
+
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    if (users.find(u => u.email === email)) {
+      setError('Email already exists. Please login instead.');
+      return;
+    }
+
+    const newUser = { 
+      id: Date.now(), 
+      role, 
+      name: fullName, 
+      email, 
+      password 
+    };
+    
+    users.push(newUser);
+    localStorage.setItem('users', JSON.stringify(users));
+    
+    localStorage.setItem('currentUser', JSON.stringify(newUser));
+    navigate('/dashboard');
+  };
 
   // Simple password strength calculator
   const calculateStrength = (pass) => {
@@ -88,7 +125,8 @@ const Register = () => {
             </button>
           </div>
 
-          <form className="login-form" onSubmit={(e) => e.preventDefault()}>
+          <form className="login-form" onSubmit={handleRegister}>
+            {error && <div className="error-message" style={{ color: '#FF4D4D', marginBottom: '1rem', fontSize: '0.875rem' }}>{error}</div>}
 
             {role === 'manager' && (
               <div className="input-group">
@@ -109,7 +147,13 @@ const Register = () => {
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                   <circle cx="12" cy="7" r="4"></circle>
                 </svg>
-                <input type="text" id="fullName" placeholder="John Doe" />
+                <input 
+                  type="text" 
+                  id="fullName" 
+                  placeholder="John Doe" 
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
               </div>
             </div>
 
