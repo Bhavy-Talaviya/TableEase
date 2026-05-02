@@ -1,23 +1,22 @@
 <div align="center">
 
 # 🍽️ TableEase
-### Restaurant Table Reservation System
-
-**A modern, fully responsive restaurant reservation platform built for seamless dining experiences.**
-
-[![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![Redux](https://img.shields.io/badge/Redux_Toolkit-764ABC?style=for-the-badge&logo=redux&logoColor=white)](https://redux-toolkit.js.org/)
-[![MUI](https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=mui&logoColor=white)](https://mui.com/)
-
 </div>
+
+
+# ALL Link:-
+(1)Live Demo:- https://table-ease-murex.vercel.app/<br>
+(2)Figma:- https://www.figma.com/design/CyiyxcK05S2dwKRAHJ8EW2/Untitled?node-id=68-52&p=f&t=g9OJhCjmhzH6HEU7-0<br>
+(3)Youtube:- https://youtu.be/N_7GFwcP0aM?si=eSqawz6KGwTprWF3<br>
+(4)Postman:- Not Use Any Use API<br>
 
 ---
 
-# ALL Link:-
-Live Demo:- https://table-ease-murex.vercel.app/<br>
-Figma:-https://www.figma.com/design/CyiyxcK05S2dwKRAHJ8EW2/Untitled?node-id=68-52&p=f&t=g9OJhCjmhzH6HEU7-0
+# Problem Statement:-
+Why do diners waste time waiting for restaurant tables?
+
+# Solution:-
+To address the problem of diners wasting time waiting for restaurant tables, this project introduces an Online Table Booking System that streamlines the reservation and management process for both customers and restaurant managers.
 
 ---
 
@@ -117,45 +116,58 @@ http://localhost:5173
 ## 📁 Folder Structure
 
 ```
-tableease/
-├── 📂 public/                    Static assets served as-is
-├── 📂 src/
-│   ├── 📂 assets/                Images, icons, fonts
-│   ├── 📂 components/            Reusable UI components
-│   │   ├── 📂 ui/                Base elements (Button, Input, Modal, Card)
-│   │   ├── 📂 forms/             Form fields (FormInput, FormSelect, FormDatePicker)
-│   │   ├── 📂 layout/            Navbar, Sidebar, Footer, PageWrapper
-│   │   └── 📂 shared/            Skeleton loaders, EmptyState, ErrorState
-│   ├── 📂 pages/                 Route-level page components
-│   │   ├── 📂 public/            Unauthenticated pages
-│   │   ├── 📂 user/              Customer-protected pages
-│   │   ├── 📂 admin/             Admin role-only pages
-│   │   └── 📂 error/             404, 403, 500 error pages
-│   ├── 📂 features/              Redux slices organized by domain
-│   │   ├── 📂 auth/              Auth slice, login and logout thunks
-│   │   ├── 📂 user/              User profile slice
-│   │   ├── 📂 reservation/       Reservation CRUD slice
-│   │   ├── 📂 table/             Table management slice
-│   │   ├── 📂 menu/              Menu items slice
-│   │   └── 📂 ui/                Loader, theme, sidebar state
-│   ├── 📂 hooks/                 Custom React hooks
-│   ├── 📂 services/              Axios instance and API service files
-│   ├── 📂 utils/                 Helpers, constants, storage utilities
-│   ├── 📂 routes/                Route config, guards, lazy imports
-│   └── 📂 styles/                Global CSS and Tailwind overrides
-├── 📄 .env.example               Environment variable template
-├── 📄 .eslintrc.cjs              ESLint configuration
-├── 📄 .prettierrc                Prettier configuration
-├── 📄 tailwind.config.js         Design tokens and theme config
-├── 📄 vite.config.js             Vite build configuration
-└── 📄 README.md                  You are here
+TableEase/
+├── Backend/                    # Server-side code (Node.js/Express)
+│
+└── Frontend/
+    ├── public/                 # Static assets
+    └── src/
+        ├── assets/             # Images, icons, fonts
+        ├── components/         # Reusable UI components
+        │   ├── BookingWizard.jsx
+        │   ├── CTA.jsx
+        │   ├── DashboardLayout.jsx
+        │   ├── FeaturedDishes.jsx
+        │   ├── Footer.jsx
+        │   ├── ForgotPassword.jsx
+        │   ├── Hero.jsx
+        │   ├── HowItWorks.jsx
+        │   ├── Login.jsx
+        │   ├── Navbar.jsx
+        │   ├── Register.jsx
+        │   ├── ReviewHero.jsx
+        │   ├── ReviewList.jsx
+        │   ├── ReviewStats.jsx
+        │   ├── SEO.jsx
+        │   ├── Sidebar.jsx
+        │   ├── Stats.jsx
+        │   ├── StoryContact.jsx
+        │   ├── StoryHero.jsx
+        │   ├── StoryPhilosophy.jsx
+        │   ├── StoryTeam.jsx
+        │   ├── StoryValues.jsx
+        │   ├── Testimonials.jsx
+        │   └── Topbar.jsx
+        │
+        ├── pages/              # Route-level page components
+        │   ├── CustomerDashboard.jsx
+        │   ├── ForgotPasswordPage.jsx
+        │   ├── LandingPage.jsx
+        │   ├── LoginPage.jsx
+        │   ├── ManagerDashboard.jsx
+        │   ├── Notifications.jsx
+        │   ├── OurStoryPage.jsx
+        │   ├── RegisterPage.jsx
+        │   ├── Reservations.jsx
+        │   ├── ReviewsPage.jsx
+        │   └── UserProfile.jsx
+        │
+        ├── App.jsx             # Root component with routing
+        ├── App.css             # Global styles
+        ├── main.jsx            # App entry point
+        └── index.css           # Base CSS reset/styles
 ```
 
----
-
-## 📄 Pages and Routes
-
-> 🗂️ **Total: 25 Pages** across 4 route categories
 
 ---
 
@@ -473,8 +485,6 @@ See the [LICENSE](./LICENSE) file for full terms and conditions.
 <div align="center">
 
 **Built with passion for better dining experiences** 🍽️
-
-⭐ Star this repo if you found it helpful — it means a lot!
 
 [![Made with React](https://img.shields.io/badge/Made%20with-React-61DAFB?style=flat-square&logo=react)](https://react.dev)
 [![Styled with Tailwind](https://img.shields.io/badge/Styled%20with-Tailwind-38BDF8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
