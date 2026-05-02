@@ -16,6 +16,7 @@
 ---
 
 # ALL Link:-
+Live Demo:- https://table-ease-murex.vercel.app/<br>
 Figma:-https://www.figma.com/design/CyiyxcK05S2dwKRAHJ8EW2/Untitled?node-id=68-52&p=f&t=g9OJhCjmhzH6HEU7-0
 
 ---
