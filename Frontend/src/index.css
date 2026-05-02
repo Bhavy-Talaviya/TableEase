@@ -301,11 +301,45 @@ button {
 
   .search-container {
     flex: 1;
-    max-width: 200px !important;
+    max-width: 180px !important;
   }
 
   .search-input {
-    font-size: 14px;
+    font-size: 13px;
+    padding-left: 2rem !important;
+  }
+
+  .topbar-actions {
+    display: none !important;
+  }
+
+  .user-info-text {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 8px;
+  }
+
+  .user-name {
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    color: #1A1A1A !important;
+    max-width: 90px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .user-role {
+    font-size: 0.65rem !important;
+    color: var(--text-gray) !important;
+    font-weight: 600 !important;
+    text-transform: capitalize;
+  }
+
+  .user-avatar-container {
+    width: 36px !important;
+    height: 36px !important;
   }
 
   /* ── All Content Grids → Single Column ── */
